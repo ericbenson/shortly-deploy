@@ -3,6 +3,22 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      dist: {
+        src: [
+          'public/client/**/*.js'
+        ],
+        dest: 'public/dist/production.js'
+      },
+
+      lib: {
+        src: [
+          'public/lib/jquery.js',
+          'public/lib/handlebars.js',
+          'public/lib/underscore.js',
+          'public/lib/backbone.js'
+        ],
+        dest: 'public/dist/lib.js'
+      }
     },
 
     mochaTest: {
@@ -21,14 +37,23 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      build: {
+        src: 'public/dist/production.js',
+        dest: 'public/dist/production.min.js'
+      },
+      lib: {
+        src: 'public/dist/lib.js',
+        dest: 'public/dist/lib.min.js'
+      }
     },
 
     jshint: {
       files: [
         // Add filespec list here
+          'public/client/*.js'
       ],
       options: {
-        force: 'true',
+        force: 'false',
         jshintrc: '.jshintrc',
         ignores: [
           'public/lib/**/*.js',
@@ -38,6 +63,10 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      minify: {
+        src: 'public/style.css',
+        dest: 'public/style.min.css'
+      }
     },
 
     watch: {
@@ -106,7 +135,15 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+    'concat',
+    'uglify',
+    'cssmin',
+    'jshint',
+    'test'
   ]);
 
+  grunt.registerTask('default', [
+    // add your deploy tasks here
+  ]);
 
 };

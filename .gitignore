@@ -28,3 +28,9 @@ results
 
 npm-debug.log
 node_modules
+
+lib.js
+lib.min.js
+production.js
+production.min.js
+style.min.css
